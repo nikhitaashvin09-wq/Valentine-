@@ -1,0 +1,66 @@
+let messageIndex = 0;
+let escapeMode = false;
+
+const messages = [
+    "Are you sure?",
+    "Think about it...",
+    "Last chance!",
+    "I'll be sad :(",
+    "Really???",
+    "You might regret this",
+    "Okay final choice!"
+];
+
+const noButton = document.querySelector('.no-button');
+const yesButton = document.querySelector('.yes-button');
+
+// When NO is clicked
+function handleNoClick(){
+
+    // Grow YES button every click
+    const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+    yesButton.style.fontSize = `${currentSize * 1.25}px`;
+
+    // If still messages left → change text
+    if(messageIndex < messages.length){
+        noButton.textContent = messages[messageIndex];
+        messageIndex++;
+    }
+    else{
+        // Activate RUN AWAY MODE
+        escapeMode = true;
+        noButton.textContent = "CATCH ME 😜";
+    }
+}
+
+// When mouse goes near (ONLY after last message)
+noButton.addEventListener("mouseover", () => {
+
+    if(!escapeMode) return;
+
+    const i = Math.random() * (window.innerWidth - 150);
+    const j = Math.random() * (window.innerHeight - 80);
+
+    noButton.style.position = "absolute";
+    noButton.style.left = i + "px";
+    noButton.style.top = j + "px";
+});
+
+function handleYesClick(){
+    document.body.innerHTML = `
+    <div style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        background:linear-gradient(135deg,#ff4e8a,#ff2e78);
+        color:white;
+        font-size:45px;
+        font-family:Arial;
+        flex-direction:column;
+        text-align:center;
+    ">
+        <h1>YAYYY 💕</h1>
+        <p>You said YES 😌</p>
+    </div>`;
+}
